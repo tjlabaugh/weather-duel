@@ -1,6 +1,13 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const path = require("path");
+const axios = require("axios");
+
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
+
+const DARKSKY_API_KEY = process.env.DARKSKY_API_KEY;
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -13,10 +20,14 @@ app.get("/api/hello", (req, res) => {
   res.send({ express: "Hello From Express" });
 });
 
-app.post("/api/world", (req, res) => {
-  res.send(
-    `I received your POST request. This is what you sent me: ${req.body.post}`
-  );
+app.post("/weather", (req, res) => {
+  const url = `https://api.darksky.net/forecast/${DARKSKY_API_KEY}/33.433866,-79.121298`;
+  axios({
+    url: url,
+    responseType: "JSON"
+  })
+    .then(data => res.send(data.data))
+    .catch(error => console.log("Error:", error.message));
 });
 
 if (process.env.NODE_ENV === "production") {

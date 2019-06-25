@@ -1,5 +1,4 @@
 import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
 
 class App extends React.Component {
@@ -8,8 +7,7 @@ class App extends React.Component {
 
     this.state = {
       response: "",
-      post: "",
-      responseToPost: ""
+      post: ""
     };
   }
 
@@ -29,36 +27,32 @@ class App extends React.Component {
 
   handleSubmit = async e => {
     e.preventDefault();
-
-    const response = await fetch("/api/world", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ post: this.state.post })
-    });
-    const body = await response.text();
-
-    this.setState({ responseToPost: body });
+    try {
+      const response = await fetch("/weather", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ post: this.state.post })
+      });
+      const body = await response.json();
+      console.log(body.currently);
+      const { temperature, summary, windGust } = body.currently;
+      this.setState({
+        temp: temperature,
+        summary: summary,
+        windGust: windGust
+      });
+    } catch {
+      console.log("There was an error");
+    }
   };
 
   render() {
+    const { temp, summary, windGust } = this.state;
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <header className="App-header" />
         <p>{this.state.response}</p>
         <form onSubmit={this.handleSubmit}>
           <p>
@@ -71,7 +65,11 @@ class App extends React.Component {
           />
           <button type="submit">Submit</button>
         </form>
-        <p>{this.state.responseToPost}</p>
+        <p>
+          {`Temperature: ${Math.round(
+            temp
+          )}, Wind Gust: ${windGust}, Summary: ${summary}`}
+        </p>
       </div>
     );
   }
