@@ -1,4 +1,5 @@
 import React from "react";
+import Location from "./components/Location";
 import "./App.css";
 
 class App extends React.Component {
@@ -6,7 +7,6 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      response: "",
       post: ""
     };
   }
@@ -39,6 +39,8 @@ class App extends React.Component {
       console.log(body.currently);
       const { temperature, summary, windGust } = body.currently;
       this.setState({
+        firstInput: "",
+        secondInput: "",
         temp: temperature,
         summary: summary,
         windGust: windGust
@@ -48,23 +50,38 @@ class App extends React.Component {
     }
   };
 
+  // handleInputChange = (value, locationId) => {
+  //   this.setState({
+  //     locationId: value
+  //   });
+  // };
+
+  handleInputChange = e => {
+    const name = e.target.name;
+    const value = e.target.value;
+
+    this.setState({
+      [name]: value
+    });
+  };
+
   render() {
     const { temp, summary, windGust } = this.state;
     return (
       <div className="App">
         <header className="App-header" />
-        <p>{this.state.response}</p>
-        <form onSubmit={this.handleSubmit}>
-          <p>
-            <strong>Post to server:</strong>
-          </p>
-          <input
-            type="text"
-            value={this.state.post}
-            onChange={e => this.setState({ post: e.target.value })}
-          />
-          <button type="submit">Submit</button>
-        </form>
+        <Location
+          handleSubmit={this.handleSubmit}
+          handleInputChange={this.handleInputChange}
+          locationId={"firstInput"}
+          locationValue={this.state.firstInput}
+        />
+        <Location
+          handleSubmit={this.handleSubmit}
+          handleInputChange={this.handleInputChange}
+          locationId={"secondInput"}
+          locationValue={this.state.secondInput}
+        />
         <p>
           {`Temperature: ${Math.round(
             temp
