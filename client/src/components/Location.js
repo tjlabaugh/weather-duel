@@ -1,25 +1,14 @@
 import React from "react";
 
-const Location = ({
-  handleSubmit,
-  handleInputChange,
-  locationId,
-  locationValue
-}) => {
+const Location = ({ handleInputChange, locationId, locationValue }) => {
   return (
     <div>
-      <form onSubmit={handleSubmit}>
-        <p>
-          <strong>Post to server:</strong>
-        </p>
-        <input
-          type="text"
-          name={locationId}
-          value={locationValue}
-          onChange={handleInputChange}
-        />
-        <button type="submit">Submit</button>
-      </form>
+      <input
+        type="text"
+        name={locationId}
+        value={locationValue}
+        onChange={handleInputChange}
+      />
     </div>
   );
 };

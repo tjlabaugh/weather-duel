@@ -21,13 +21,52 @@ app.get("/api/hello", (req, res) => {
 });
 
 app.post("/weather", (req, res) => {
-  const url = `https://api.darksky.net/forecast/${DARKSKY_API_KEY}/33.433866,-79.121298`;
-  axios({
-    url: url,
-    responseType: "JSON"
-  })
-    .then(data => res.send(data.data))
+  // PI = 33.433866,-79.121298
+  // PP = 40.081970, -74.068514
+
+  const urlOne = `https://api.darksky.net/forecast/${DARKSKY_API_KEY}/33.433866,-79.121298`;
+  const urlTwo = `https://api.darksky.net/forecast/${DARKSKY_API_KEY}/40.081970,-74.068514`;
+
+  function getLocationOne() {
+    return axios({
+      url: urlOne,
+      responseType: "JSON"
+    });
+  }
+
+  function getLocationTwo() {
+    return axios({
+      url: urlTwo,
+      responseType: "JSON"
+    });
+  }
+
+  axios
+    .all([getLocationOne(), getLocationTwo()])
+    .then(
+      axios.spread((locationOneData, locationTwoData) => {
+        const data = JSON.stringify({
+          locationOne: locationOneData.data,
+          locationTwo: locationTwoData.data
+        });
+        res.send(data);
+      })
+    )
     .catch(error => console.log("Error:", error.message));
+
+  // axios({
+  //   url: url,
+  //   responseType: "JSON"
+  // })
+  //   .then(data => {
+  //     res.send(data.data);
+  //     console.log(
+  //       `First Input: ${req.body.firstInput} Second Input: ${
+  //         req.body.secondInput
+  //       }`
+  //     );
+  //   })
+  //   .catch(error => console.log("Error:", error.message));
 });
 
 if (process.env.NODE_ENV === "production") {

@@ -7,6 +7,8 @@ class App extends React.Component {
     super(props);
 
     this.state = {
+      firstInput: "",
+      secondInput: "",
       post: ""
     };
   }
@@ -33,28 +35,23 @@ class App extends React.Component {
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ post: this.state.post })
+        body: JSON.stringify({
+          firstInput: this.state.firstInput,
+          secondInput: this.state.secondInput
+        })
       });
       const body = await response.json();
-      console.log(body.currently);
-      const { temperature, summary, windGust } = body.currently;
-      this.setState({
-        firstInput: "",
-        secondInput: "",
-        temp: temperature,
-        summary: summary,
-        windGust: windGust
-      });
+      console.log(body);
+      // const { temperature, summary, windGust } = body.currently;
+      // this.setState({
+      //   temp: temperature,
+      //   summary: summary,
+      //   windGust: windGust
+      // });
     } catch {
       console.log("There was an error");
     }
   };
-
-  // handleInputChange = (value, locationId) => {
-  //   this.setState({
-  //     locationId: value
-  //   });
-  // };
 
   handleInputChange = e => {
     const name = e.target.name;
@@ -70,18 +67,20 @@ class App extends React.Component {
     return (
       <div className="App">
         <header className="App-header" />
-        <Location
-          handleSubmit={this.handleSubmit}
-          handleInputChange={this.handleInputChange}
-          locationId={"firstInput"}
-          locationValue={this.state.firstInput}
-        />
-        <Location
-          handleSubmit={this.handleSubmit}
-          handleInputChange={this.handleInputChange}
-          locationId={"secondInput"}
-          locationValue={this.state.secondInput}
-        />
+        <form onSubmit={this.handleSubmit}>
+          <Location
+            handleInputChange={this.handleInputChange}
+            locationId={"firstInput"}
+            locationValue={this.state.firstInput}
+          />
+          <Location
+            handleInputChange={this.handleInputChange}
+            locationId={"secondInput"}
+            locationValue={this.state.secondInput}
+          />
+          <button type="submit">Submit</button>
+        </form>
+
         <p>
           {`Temperature: ${Math.round(
             temp
