@@ -9,7 +9,9 @@ class App extends React.Component {
     this.state = {
       firstInput: "",
       secondInput: "",
-      post: ""
+      post: "",
+      locationOne: "",
+      locationTwo: ""
     };
   }
 
@@ -51,26 +53,6 @@ class App extends React.Component {
 
   handleSubmit = async e => {
     e.preventDefault();
-
-    // const locationSearch = document.querySelectorAll("[data-location-search]");
-    // const request = {
-    //   query: "Point Pleasant, NJ",
-    //   fields: ["name", "geometry"]
-    // };
-
-    // try {
-    //   var service = new window.google.maps.places.PlacesService(
-    //     locationSearch[0]
-    //   );
-    //   service.findPlaceFromQuery(request, result => {
-    //     console.log(result);
-    //     console.log(
-    //       `Lat: ${result[0].geometry.location.lat()} Lng: ${result[0].geometry.location.lng()}`
-    //     );
-    //   });
-    // } catch {
-    //   console.log("Error :(");
-    // }
 
     // Gets Location ID and City/State
     const getLocationId = options => {
@@ -180,22 +162,48 @@ class App extends React.Component {
         }
       };
 
-      console.log(`LOCATION RESULTS:`, locationResults);
-
       this.setState({
         firstInput: locationResults.locationOne.name,
         secondInput: locationResults.locationTwo.name
       });
+
+      return locationResults;
     };
 
-    getLocationData();
+    const getWeatherData = async () => {
+      const locationData = await getLocationData();
+      console.log(`This is location data in getWeatherFunction:`, locationData);
 
-    //getLocationId(options1);
-    // getLocationId(options2);
-    // getCoords("firstInputCoords", this.state.firstInputId);
-    // getCoords("secondInputCoords", this.state.secondInputId);
+      const response = await fetch("/weather", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          locationOne: {
+            latitude: locationData.locationOne.latitude,
+            longitude: locationData.locationOne.longitude
+          },
+          locationTwo: {
+            latitude: locationData.locationTwo.latitude,
+            longitude: locationData.locationTwo.longitude
+          }
+        })
+      });
+      const body = await response.json();
+      const { temperature, summary, windGust } = body.locationOne.currently;
 
-    //console.log(locationResults);
+      this.setState({
+        locationOne: `{
+          "temp": "${temperature}",
+          "summary": "${summary}",
+          "windGust": "${windGust}"
+        }`
+      });
+      console.log(body);
+    };
+
+    getWeatherData();
 
     // try {
     //   const response = await fetch("/weather", {
@@ -231,26 +239,21 @@ class App extends React.Component {
   };
 
   render() {
-    const { temp, summary, windGust } = this.state;
+    let weatherData;
+    try {
+      if (this.state.locationOne !== "") {
+        weatherData = JSON.parse(this.state.locationOne);
+        console.log(weatherData);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    const { temp, summary, windGust } = weatherData
+      ? weatherData
+      : { temp: "-", summary: "-", windGust: "-" };
     return (
       <div className="App">
         <header className="App-header" />
-        {/* <form onSubmit={this.googleTest}>
-          <input
-            type="text"
-            data-location-search
-            placeholder="Enter a City"
-            name={"locationTest"}
-            onChange={this.handleInputChange}
-            onBlur={this.handleInputChange}
-            value={this.state.locationTest}
-          />
-          <button type="submit">Submit</button>
-        </form>
-        <input type="text" data-test-search /> */}
-        <br />
-        <br />
-        <br />
         <form onSubmit={this.handleSubmit}>
           <Location
             handleInputChange={this.handleInputChange}
