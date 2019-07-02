@@ -72,48 +72,42 @@ class App extends React.Component {
     //   console.log("Error :(");
     // }
 
-    const locationSearch = document.querySelectorAll("[data-location-search]");
-    const options1 = {
-      input: locationSearch[0].value,
-      types: ["(cities)"],
-      inputName: locationSearch[0].name
-    };
-    const options2 = {
-      input: locationSearch[1].value,
-      types: ["(cities)"],
-      inputName: locationSearch[1].name
-    };
-    let locationResults;
+    // Gets Location ID and City/State
+    const getLocationId = options => {
+      return new Promise((resolve, reject) => {
+        const service = new window.google.maps.places.AutocompleteService();
+        let results;
 
-    const getLocationId = new Promise((resolve, reject) => {
-      const service = new window.google.maps.places.AutocompleteService();
-      let results;
+        const getPredictions = (options, returnLocationInfo) => {
+          service.getPlacePredictions(options, (predictions, status) => {
+            if (status === window.google.maps.places.PlacesServiceStatus.OK) {
+              returnLocationInfo({
+                description: predictions[0].description,
+                id: predictions[0].place_id
+              });
+            }
+          });
+        };
 
-      const getPredictions = (options, returnLocationInfo) => {
-        service.getPlacePredictions(options, (predictions, status) => {
-          if (status === window.google.maps.places.PlacesServiceStatus.OK) {
-            returnLocationInfo({
-              description: predictions[0].description,
-              id: predictions[0].place_id
-            });
+        getPredictions(options, ({ description, id }) => {
+          results = { name: description, id: id };
+
+          if (results) {
+            resolve(results);
+          } else {
+            let error = new Error("No results returned");
+            reject(error);
           }
         });
-      };
-
-      getPredictions(options1, ({ description, id }) => {
-        results = { name: description, id: id };
-
-        if (results) {
-          return resolve(results);
-        } else {
-          let error = new Error("No results returned");
-          return reject(error);
-        }
       });
-    });
+    };
 
+    // Gets latidude and longitude
     const getCoords = placeId => {
       return new Promise((resolve, reject) => {
+        const locationSearch = document.querySelectorAll(
+          "[data-location-search]"
+        );
         const request = {
           fields: ["geometry.location"],
           placeId: `${placeId}`
@@ -150,25 +144,51 @@ class App extends React.Component {
       });
     };
 
-    const getLocationOne = async () => {
-      const locationDetails = await getLocationId;
-      console.log(`This is the Result from the async/await:`, locationDetails);
-      const coords = await getCoords(locationDetails.id);
-      console.log(`This is the Coords from the async/await:`, coords);
+    const getLocationData = async () => {
+      const locationSearch = document.querySelectorAll(
+        "[data-location-search]"
+      );
+      const options1 = {
+        input: locationSearch[0].value,
+        types: ["(cities)"],
+        inputName: locationSearch[0].name
+      };
+      const options2 = {
+        input: locationSearch[1].value,
+        types: ["(cities)"],
+        inputName: locationSearch[1].name
+      };
+      let locationResults;
+
+      const locationDetailsOne = await getLocationId(options1);
+      const locationDetailsTwo = await getLocationId(options2);
+      const coordsOne = await getCoords(locationDetailsOne.id);
+      const coordsTwo = await getCoords(locationDetailsTwo.id);
 
       locationResults = {
         locationOne: {
-          name: locationDetails.name,
-          id: locationDetails.id,
-          latitude: coords.latitude,
-          longitude: coords.longitude
+          name: locationDetailsOne.name,
+          id: locationDetailsOne.id,
+          latitude: coordsOne.latitude,
+          longitude: coordsOne.longitude
+        },
+        locationTwo: {
+          name: locationDetailsTwo.name,
+          id: locationDetailsTwo.id,
+          latitude: coordsTwo.latitude,
+          longitude: coordsTwo.longitude
         }
       };
 
       console.log(`LOCATION RESULTS:`, locationResults);
+
+      this.setState({
+        firstInput: locationResults.locationOne.name,
+        secondInput: locationResults.locationTwo.name
+      });
     };
 
-    getLocationOne();
+    getLocationData();
 
     //getLocationId(options1);
     // getLocationId(options2);
