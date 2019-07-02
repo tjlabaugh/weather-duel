@@ -39,37 +39,7 @@ class App extends React.Component {
 
       console.log(latitude, longitude);
     });
-
-    // testSearch.addEventListener("change", () => {
-    //   const testSearch = document.querySelector("[data-test-search]");
-    //   const testBox = new window.google.maps.places.SearchBox(testSearch);
-    //   const place = testBox.getPlaces()[0];
-    //   if (place == null) return;
-    //   const latitude = place.geometry.location.lat();
-    //   const longitude = place.geometry.location.lng();
-
-    //   console.log(latitude, longitude);
-    // });
-
-    // if (!window.google) {
-    //   var s = document.createElement('script');
-    //   s.type = 'text/javascript';
-    //   s.src = `https://maps.google.com/maps/api/js?key=YOUR_API_KEY`;
-    //   var x = document.getElementsByTagName('script')[0];
-    //   x.parentNode.insertBefore(s, x);
-    //   // Below is important.
-    //   //We cannot access google.maps until it's finished loading
-    //   s.addEventListener('load', e => {
-    //     this.onScriptLoad()
-    //   })
-    // } else {
-    //   this.onScriptLoad()
-    // }
   }
-
-  /*** IMPORTANT!!! ***/
-  /*** Autocomplete = https://maps.googleapis.com/maps/api/place/autocomplete/json?input=Point&types=(cities)&language=pt_BR&key=AIzaSyDnn9EtoBOn8HOvNolU6ovjip0xpFhwqYA ***/
-  /*** Find w/ placeID = https://maps.googleapis.com/maps/api/place/details/json?placeid=ChIJ04KscAIxAIkR0ijk7xUzPbk&key=AIzaSyDnn9EtoBOn8HOvNolU6ovjip0xpFhwqYA ***/
 
   callApi = async () => {
     const response = await fetch("/api/hello");
@@ -131,9 +101,7 @@ class App extends React.Component {
       };
 
       getPredictions(options1, ({ description, id }) => {
-        console.log(`This is the location info: ${description} ${id}`);
         results = { name: description, id: id };
-        console.log(`Location Results:`, results);
 
         if (results) {
           return resolve(results);
@@ -144,50 +112,63 @@ class App extends React.Component {
       });
     });
 
-    const getLocationOne = async () => {
-      const result = await getLocationId;
-      console.log(`This is the Result from the async/await:`, result);
-      locationResults = { locationOne: { name: result.name, id: result.id } };
+    const getCoords = placeId => {
+      return new Promise((resolve, reject) => {
+        const request = {
+          fields: ["geometry.location"],
+          placeId: `${placeId}`
+        };
+        let results;
+
+        const details = new window.google.maps.places.PlacesService(
+          locationSearch[0]
+        );
+
+        const getCoordData = (request, returnCoordData) => {
+          details.getDetails(request, (results, status) => {
+            if (status === window.google.maps.places.PlacesServiceStatus.OK) {
+              const lat = results.geometry.location.lat();
+              const lng = results.geometry.location.lng();
+              returnCoordData({
+                lat,
+                lng
+              });
+            }
+          });
+        };
+
+        getCoordData(request, ({ lat, lng }) => {
+          results = { latitude: lat, longitude: lng };
+
+          if (results) {
+            resolve(results);
+          } else {
+            let error = new Error("No results returned");
+            reject(error);
+          }
+        });
+      });
     };
 
-    console.log(`LOCATION RESULTS:`, locationResults);
+    const getLocationOne = async () => {
+      const locationDetails = await getLocationId;
+      console.log(`This is the Result from the async/await:`, locationDetails);
+      const coords = await getCoords(locationDetails.id);
+      console.log(`This is the Coords from the async/await:`, coords);
 
-    //     getPredictions(options, ({ description, id }) => {
-    //       console.log(`This is the location info: ${description} ${id}`);
-    //       locationResults = { name: description, id: id };
-    //       console.log(`Location Results:`, locationResults);
-    //     });
-    // };
+      locationResults = {
+        locationOne: {
+          name: locationDetails.name,
+          id: locationDetails.id,
+          latitude: coords.latitude,
+          longitude: coords.longitude
+        }
+      };
 
-    // const getCoords = (coordId, placeId) => {
-    //   console.log("running get coords");
-    //   try {
-    //     const request = {
-    //       fields: ["geometry.location"],
-    //       placeId: `${placeId}`
-    //     };
+      console.log(`LOCATION RESULTS:`, locationResults);
+    };
 
-    //     const details = new window.google.maps.places.PlacesService(
-    //       locationSearch[0]
-    //     );
-
-    //     details.getDetails(request, (results, status) => {
-    //       if (status === window.google.maps.places.PlacesServiceStatus.OK) {
-    //         console.log(results);
-    //         const lat = results.geometry.location.lat();
-    //         const lng = results.geometry.location.lng();
-    //         console.log(lat, lng);
-    //         this.setState((){
-    //           [coordId]: lat
-    //         });
-    //       } else {
-    //         throw new Error("Uh oh");
-    //       }
-    //     });
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // };
+    getLocationOne();
 
     //getLocationId(options1);
     // getLocationId(options2);
