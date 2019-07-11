@@ -165,7 +165,9 @@ class App extends React.Component {
 
       this.setState({
         firstInput: locationResults.locationOne.name,
-        secondInput: locationResults.locationTwo.name
+        secondInput: locationResults.locationTwo.name,
+        locationOneName: locationResults.locationOne.name,
+        locationTwoName: locationResults.locationTwo.name
       });
 
       return locationResults;
@@ -241,8 +243,14 @@ class App extends React.Component {
             secondInput: this.state.secondInput
           }}
         />
-        <WeatherData weatherData={this.state.locationOne} />
-        <WeatherData weatherData={this.state.locationTwo} />
+        <WeatherData
+          weatherData={this.state.locationOne}
+          locationValue={this.state.locationOneName}
+        />
+        <WeatherData
+          weatherData={this.state.locationTwo}
+          locationValue={this.state.locationTwoName}
+        />
       </div>
     );
   }
