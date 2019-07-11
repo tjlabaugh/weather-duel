@@ -1,6 +1,7 @@
 import React from "react";
-import Location from "./components/Location";
 import "./App.scss";
+import WeatherData from "./components/WatherData";
+import LocationSearch from "./components/LocationSearch";
 
 class App extends React.Component {
   constructor(props) {
@@ -172,7 +173,6 @@ class App extends React.Component {
 
     const getWeatherData = async () => {
       const locationData = await getLocationData();
-      console.log(`This is location data in getWeatherFunction:`, locationData);
 
       const response = await fetch("/weather", {
         method: "POST",
@@ -191,42 +191,33 @@ class App extends React.Component {
         })
       });
       const body = await response.json();
-      const { temperature, summary, windGust } = body.locationOne.currently;
+      console.log(body);
+
+      const weatherData = [
+        {
+          currently: body.locationOne.currently,
+          dialy: body.locationOne.daily.data[0]
+        },
+        {
+          currently: body.locationTwo.currently,
+          dialy: body.locationTwo.daily.data[0]
+        }
+      ];
+      const locations = { locationOne: {}, locationTwo: {} };
+
+      Object.keys(locations).map(
+        (key, index) => (locations[key] = weatherData[index])
+      );
+
+      console.log("Weather Data:", locations);
 
       this.setState({
-        locationOne: `{
-          "temp": "${temperature}",
-          "summary": "${summary}",
-          "windGust": "${windGust}"
-        }`
+        locationOne: JSON.stringify(locations.locationOne),
+        locationTwo: JSON.stringify(locations.locationTwo)
       });
-      console.log(body);
     };
 
     getWeatherData();
-
-    // try {
-    //   const response = await fetch("/weather", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json"
-    //     },
-    //     body: JSON.stringify({
-    //       firstInput: this.state.firstInput,
-    //       secondInput: this.state.secondInput
-    //     })
-    //   });
-    //   const body = await response.json();
-    //   console.log(body);
-    //   // const { temperature, summary, windGust } = body.currently;
-    //   // this.setState({
-    //   //   temp: temperature,
-    //   //   summary: summary,
-    //   //   windGust: windGust
-    //   // });
-    // } catch {
-    //   console.log("There was an error");
-    // }
   };
 
   handleInputChange = e => {
@@ -239,40 +230,19 @@ class App extends React.Component {
   };
 
   render() {
-    let weatherData;
-    try {
-      if (this.state.locationOne !== "") {
-        weatherData = JSON.parse(this.state.locationOne);
-        console.log(weatherData);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-    const { temp, summary, windGust } = weatherData
-      ? weatherData
-      : { temp: "-", summary: "-", windGust: "-" };
     return (
       <div className="App">
         <header className="App-header" />
-        <form onSubmit={this.handleSubmit}>
-          <Location
-            handleInputChange={this.handleInputChange}
-            locationId={"firstInput"}
-            locationValue={this.state.firstInput}
-          />
-          <Location
-            handleInputChange={this.handleInputChange}
-            locationId={"secondInput"}
-            locationValue={this.state.secondInput}
-          />
-          <button type="submit">Submit</button>
-        </form>
-
-        <p>
-          {`Temperature: ${Math.round(
-            temp
-          )}, Wind Gust: ${windGust}, Summary: ${summary}`}
-        </p>
+        <LocationSearch
+          handleInputChange={this.handleInputChange}
+          handleSubmit={this.handleSubmit}
+          locationValues={{
+            firstInput: this.state.firstInput,
+            secondInput: this.state.secondInput
+          }}
+        />
+        <WeatherData weatherData={this.state.locationOne} />
+        <WeatherData weatherData={this.state.locationTwo} />
       </div>
     );
   }

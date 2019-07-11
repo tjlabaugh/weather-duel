@@ -16,16 +16,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // API calls
-app.get("/api/hello", (req, res) => {
-  res.send({ express: "Hello From Express" });
-});
-
 app.post("/weather", (req, res) => {
   // PI = 33.433866,-79.121298
   // PP = 40.081970, -74.068514
 
   const url = `https://api.darksky.net/forecast/${DARKSKY_API_KEY}/`;
-  const { latitude, longitude } = req.body.locationOne;
+  // const { latitude, longitude } = req.body.locationOne;
 
   function getLocationOne() {
     const { latitude, longitude } = req.body.locationOne;
