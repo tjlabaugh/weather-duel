@@ -244,13 +244,15 @@ class App extends React.Component {
           }}
         />
         <WeatherData
-          weatherData={this.state.locationOne}
-          locationValue={this.state.locationOneName}
+          locationOneData={this.state.locationOne}
+          locationTwoData={this.state.locationTwo}
+          locationOneName={this.state.locationOneName}
+          locationTwoName={this.state.locationTwoName}
         />
-        <WeatherData
+        {/* <WeatherData
           weatherData={this.state.locationTwo}
           locationValue={this.state.locationTwoName}
-        />
+        /> */}
       </div>
     );
   }
