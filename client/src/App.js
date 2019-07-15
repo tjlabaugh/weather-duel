@@ -12,7 +12,8 @@ class App extends React.Component {
       secondInput: "",
       post: "",
       locationOne: "",
-      locationTwo: ""
+      locationTwo: "",
+      loading: false
     };
   }
 
@@ -198,11 +199,11 @@ class App extends React.Component {
       const weatherData = [
         {
           currently: body.locationOne.currently,
-          dialy: body.locationOne.daily.data[0]
+          daily: body.locationOne.daily.data[0]
         },
         {
           currently: body.locationTwo.currently,
-          dialy: body.locationTwo.daily.data[0]
+          daily: body.locationTwo.daily.data[0]
         }
       ];
       const locations = { locationOne: {}, locationTwo: {} };
@@ -215,11 +216,16 @@ class App extends React.Component {
 
       this.setState({
         locationOne: JSON.stringify(locations.locationOne),
-        locationTwo: JSON.stringify(locations.locationTwo)
+        locationTwo: JSON.stringify(locations.locationTwo),
+        loading: false
       });
     };
 
     getWeatherData();
+
+    this.setState({
+      loading: true
+    });
   };
 
   handleInputChange = e => {
@@ -243,16 +249,17 @@ class App extends React.Component {
             secondInput: this.state.secondInput
           }}
         />
-        <WeatherData
-          locationOneData={this.state.locationOne}
-          locationTwoData={this.state.locationTwo}
-          locationOneName={this.state.locationOneName}
-          locationTwoName={this.state.locationTwoName}
-        />
-        {/* <WeatherData
-          weatherData={this.state.locationTwo}
-          locationValue={this.state.locationTwoName}
-        /> */}
+        {this.state.loading ? (
+          "Weather data is loading..."
+        ) : (
+          <WeatherData
+            loading={this.state.loading}
+            locationOneData={this.state.locationOne}
+            locationTwoData={this.state.locationTwo}
+            locationOneName={this.state.locationOneName}
+            locationTwoName={this.state.locationTwoName}
+          />
+        )}
       </div>
     );
   }
