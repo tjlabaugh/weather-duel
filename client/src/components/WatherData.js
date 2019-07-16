@@ -59,6 +59,9 @@ const WeatherData = ({
           </span>
         </div>
       </div>
+      <div className="category">
+        <span>Current</span>
+      </div>
       {Object.keys(weatherConditions.currently).map((key, index) => (
         <Condition
           locationOneConditionData={dataOne ? dataOne.currently[key] : "-"}
@@ -67,6 +70,9 @@ const WeatherData = ({
           key={`current-${key}`}
         />
       ))}
+      <div className="category">
+        <span>Daily</span>
+      </div>
       {Object.keys(weatherConditions.daily).map((key, index) => (
         <Condition
           locationOneConditionData={dataOne ? dataOne.daily[key] : "-"}
