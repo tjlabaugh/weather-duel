@@ -2,6 +2,7 @@ import React from "react";
 import "./App.scss";
 import WeatherData from "./components/WatherData";
 import LocationSearch from "./components/LocationSearch";
+import Footer from "./components/Footer";
 
 class App extends React.Component {
   constructor(props) {
@@ -239,8 +240,17 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="App">
-        <header className="App-header" />
+      <div className="app">
+        <header className="header">
+          <h1>
+            Weather{""}
+            <span role="img" aria-label="Lightning Bolt">
+              ⚡️
+            </span>
+            {""}
+            Duel
+          </h1>
+        </header>
         <LocationSearch
           handleInputChange={this.handleInputChange}
           handleSubmit={this.handleSubmit}
@@ -260,6 +270,7 @@ class App extends React.Component {
             locationTwoName={this.state.locationTwoName}
           />
         )}
+        <Footer />
       </div>
     );
   }

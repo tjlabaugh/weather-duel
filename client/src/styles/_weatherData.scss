@@ -17,11 +17,15 @@
   .location {
     &_city-name {
       display: block;
-      font-size: 1.6rem;
+      text-align: center;
+      font-size: 1.8rem;
     }
 
     &_secondary-name {
-      font-size: 1rem;
+      display: block;
+      width: 100%;
+      text-align: center;
+      font-size: 1.2rem;
     }
   }
 
@@ -32,7 +36,7 @@
   .condition {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-auto-rows: 7rem;
+    grid-auto-rows: minmax(7rem, auto);
     align-items: center;
     padding: 0;
     font-size: 2rem;
