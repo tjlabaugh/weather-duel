@@ -1,14 +1,29 @@
 import React from "react";
+import darksky from "../images/darksky.png";
 
 const Footer = () => {
   return (
     <footer>
-      <p>
-        &copy; 2019{" "}
-        <a href="https://tjlabaugh.com" target="_blank">
-          TJ LaBaugh
-        </a>
-      </p>
+      <div className="footer__content">
+        <div />
+        <div>
+          <p>
+            &copy; 2019{" "}
+            <a
+              href="https://tjlabaugh.com"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              TJ LaBaugh
+            </a>
+          </p>
+        </div>
+        <div>
+          <a className="darksky" href="https://darksky.net/poweredby/">
+            <img src={darksky} alt="" />
+          </a>
+        </div>
+      </div>
     </footer>
   );
 };

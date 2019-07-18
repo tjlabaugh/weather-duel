@@ -4,13 +4,39 @@ footer {
   padding: 1rem;
   background: #111;
 
-  p {
-    color: #fff;
-    text-align: center;
-  }
+  .footer__content {
+    display: flex;
+    justify-content: center;
+    width: 80%;
+    margin: 0 auto;
+    max-width: 1000px;
 
-  a {
-    color: #fff;
-    text-decoration: none;
+    & > div {
+      flex: 1;
+    }
+
+    & > div:last-of-type {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    p {
+      color: #fff;
+      text-align: center;
+    }
+
+    a {
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .darksky {
+      display: block;
+      width: 15rem;
+
+      img {
+        width: 100%;
+      }
+    }
   }
 }
