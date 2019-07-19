@@ -33,6 +33,29 @@
     grid-column: 2 / 2;
   }
 
+  .weather-icons {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: 5rem;
+    justify-items: center;
+    background: #282c34;
+
+    & > div {
+      margin: 0.5rem 0;
+      text-align: center;
+    }
+
+    & > div:nth-of-type(1) {
+      justify-self: left;
+      align-self: center;
+    }
+
+    canvas {
+      width: auto;
+      height: 100%;
+    }
+  }
+
   .condition {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -78,10 +101,41 @@
 
   & > div.category {
     display: grid;
-    grid-auto-rows: 3rem;
+    grid-auto-rows: 5rem;
     align-items: center;
     justify-items: start;
     background: #282c34;
-    color: #fff;
+  }
+}
+
+.category {
+  color: #fff;
+  font-size: 1.6rem;
+  font-weight: 700;
+  padding-left: 1rem;
+}
+
+.loading {
+  margin: 10rem auto;
+  max-width: 1000px;
+  text-align: center;
+
+  &__icon {
+    width: 12rem;
+    animation: loading-spin infinite 12s linear;
+  }
+
+  p {
+    color: $orange;
+    font-weight: bold;
+  }
+}
+
+@keyframes loading-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
   }
 }

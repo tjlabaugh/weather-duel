@@ -255,28 +255,30 @@ class App extends React.Component {
             </h1>
           </div>
         </header>
-        <LocationSearch
-          handleInputChange={this.handleInputChange}
-          handleSubmit={this.handleSubmit}
-          locationValues={{
-            firstInput: this.state.firstInput,
-            secondInput: this.state.secondInput
-          }}
-        />
-        {this.state.loading ? (
-          <div>
-            <img src={sunLoad} alt="Loading" />
-            <p>"Weather data is loading..."</p>
-          </div>
-        ) : (
-          <WeatherData
-            loading={this.state.loading}
-            locationOneData={this.state.locationOne}
-            locationTwoData={this.state.locationTwo}
-            locationOneName={this.state.locationOneName}
-            locationTwoName={this.state.locationTwoName}
+        <div className="container">
+          <LocationSearch
+            handleInputChange={this.handleInputChange}
+            handleSubmit={this.handleSubmit}
+            locationValues={{
+              firstInput: this.state.firstInput,
+              secondInput: this.state.secondInput
+            }}
           />
-        )}
+          {this.state.loading ? (
+            <div className="loading">
+              <img className="loading__icon" src={sunLoad} alt="Loading" />
+              <p>Weather data is loading...</p>
+            </div>
+          ) : (
+            <WeatherData
+              loading={this.state.loading}
+              locationOneData={this.state.locationOne}
+              locationTwoData={this.state.locationTwo}
+              locationOneName={this.state.locationOneName}
+              locationTwoName={this.state.locationTwoName}
+            />
+          )}
+        </div>
         <Footer />
       </div>
     );

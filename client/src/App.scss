@@ -6,6 +6,7 @@
 
   body {
     font-size: 1.6rem;
+    background: rgb(13, 19, 33);
   }
 }
 
@@ -50,6 +51,16 @@
 @import "./styles/weatherData";
 @import "./styles/footer";
 
-body {
-  background: rgb(13, 19, 33);
+.app {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100vh;
+
+  .container {
+    flex: 1 100%;
+    margin: 0 auto;
+    max-width: 1000px;
+    width: 100%;
+  }
 }
