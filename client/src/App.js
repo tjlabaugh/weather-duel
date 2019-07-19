@@ -4,6 +4,8 @@ import WeatherData from "./components/WatherData";
 import LocationSearch from "./components/LocationSearch";
 import Footer from "./components/Footer";
 
+import sunLoad from "./images/sun-solid.svg";
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -242,14 +244,16 @@ class App extends React.Component {
     return (
       <div className="app">
         <header className="header">
-          <h1>
-            Weather{""}
-            <span role="img" aria-label="Lightning Bolt">
-              ⚡️
-            </span>
-            {""}
-            Duel
-          </h1>
+          <div className="header__content">
+            <h1>
+              Weather{""}
+              <span role="img" aria-label="Lightning Bolt">
+                ⚡️
+              </span>
+              {""}
+              Duel
+            </h1>
+          </div>
         </header>
         <LocationSearch
           handleInputChange={this.handleInputChange}
@@ -260,7 +264,10 @@ class App extends React.Component {
           }}
         />
         {this.state.loading ? (
-          "Weather data is loading..."
+          <div>
+            <img src={sunLoad} alt="Loading" />
+            <p>"Weather data is loading..."</p>
+          </div>
         ) : (
           <WeatherData
             loading={this.state.loading}

@@ -19,7 +19,12 @@ const Footer = () => {
           </p>
         </div>
         <div>
-          <a className="darksky" href="https://darksky.net/poweredby/">
+          <a
+            className="darksky"
+            href="https://darksky.net/poweredby/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <img src={darksky} alt="" />
           </a>
         </div>

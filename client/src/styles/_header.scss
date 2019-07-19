@@ -9,4 +9,9 @@
   padding: 1rem;
   width: 100%;
   color: $orange;
+
+  &__content {
+    margin: 0 auto;
+    max-width: 1000px;
+  }
 }
