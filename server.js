@@ -13,8 +13,20 @@ const DARKSKY_API_KEY = process.env.DARKSKY_API_KEY;
 const app = express();
 const port = process.env.PORT || 5000;
 
+// const whitelist = ["https://cdnjs.cloudflare.com"];
+// const corsOptions = {
+//   origin: function(origin, callback) {
+//     if (whitelist.indexOf(origin) !== -1) {
+//       callback(null, true);
+//     } else {
+//       callback(new Error(`Not allowed by CORS ${origin}`));
+//     }
+//   }
+// };
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(cors(corsOptions));
 app.use(cors());
 
 // API calls

@@ -32,19 +32,11 @@ class App extends React.Component {
     searchBox1.addListener("places_changed", () => {
       const place = searchBox1.getPlaces()[0];
       if (place == null) return;
-      const latitude = place.geometry.location.lat();
-      const longitude = place.geometry.location.lng();
-
-      console.log(latitude, longitude);
     });
 
     searchBox2.addListener("places_changed", () => {
       const place = searchBox2.getPlaces()[0];
       if (place == null) return;
-      const latitude = place.geometry.location.lat();
-      const longitude = place.geometry.location.lng();
-
-      console.log(latitude, longitude);
     });
   }
 
@@ -197,7 +189,6 @@ class App extends React.Component {
         })
       });
       const body = await response.json();
-      console.log(body);
 
       const weatherData = [
         {
@@ -214,8 +205,6 @@ class App extends React.Component {
       Object.keys(locations).map(
         (key, index) => (locations[key] = weatherData[index])
       );
-
-      console.log("Weather Data:", locations);
 
       this.setState({
         locationOne: JSON.stringify(locations.locationOne),
