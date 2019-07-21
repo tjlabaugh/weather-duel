@@ -202,6 +202,8 @@ class App extends React.Component {
       ];
       const locations = { locationOne: {}, locationTwo: {} };
 
+      console.log(locations);
+
       Object.keys(locations).map(
         (key, index) => (locations[key] = weatherData[index])
       );

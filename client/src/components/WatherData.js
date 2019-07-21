@@ -100,6 +100,7 @@ class WeatherData extends React.Component {
             locationOneConditionData={dataOne ? dataOne.currently[key] : "-"}
             locationTwoConditionData={dataTwo ? dataTwo.currently[key] : "-"}
             conditionName={weatherConditions.currently[key]}
+            conditionKey={key}
             key={`current-${key}`}
           />
         ))}
@@ -111,6 +112,7 @@ class WeatherData extends React.Component {
             locationOneConditionData={dataOne ? dataOne.daily[key] : "-"}
             locationTwoConditionData={dataTwo ? dataTwo.daily[key] : "-"}
             conditionName={weatherConditions.daily[key]}
+            conditionKey={key}
             key={`daily-${key}`}
           />
         ))}

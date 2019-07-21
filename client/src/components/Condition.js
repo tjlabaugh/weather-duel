@@ -1,7 +1,9 @@
 import React from "react";
+import formatData from "../js/format";
 
 const Condition = ({
   conditionName,
+  conditionKey,
   locationOneConditionData,
   locationTwoConditionData
 }) => {
@@ -9,10 +11,10 @@ const Condition = ({
     <div className="condition">
       <div className="condition-name">{conditionName}</div>
       <div className="condition-data">
-        <span>{locationOneConditionData}</span>
+        <span>{formatData(locationOneConditionData, conditionKey)}</span>
       </div>
       <div className="condition-data">
-        <span>{locationTwoConditionData}</span>
+        <span>{formatData(locationTwoConditionData, conditionKey)}</span>
       </div>
     </div>
   );
