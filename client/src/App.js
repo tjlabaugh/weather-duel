@@ -5,6 +5,7 @@ import LocationSearch from "./components/LocationSearch";
 import Footer from "./components/Footer";
 
 import sunLoad from "./images/sun-solid.svg";
+import bolt from "./images/bolt-solid.png";
 
 class App extends React.Component {
   constructor(props) {
@@ -245,9 +246,9 @@ class App extends React.Component {
           <div className="header__content">
             <h1>
               Weather{""}
-              <span role="img" aria-label="Lightning Bolt">
-                ⚡️
-              </span>
+              <div className="logo-container">
+                <img className="logo" src={bolt} alt="Lightning Bolt" />
+              </div>
               {""}
               Duel
             </h1>
