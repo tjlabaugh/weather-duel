@@ -22,6 +22,7 @@ const Condition = ({
           showWinners &&
           "winner"}`}
       >
+        <div />
         <span>{formatData(locationOneConditionData, conditionKey)}</span>
       </div>
       <div
@@ -29,6 +30,7 @@ const Condition = ({
           showWinners &&
           "winner"}`}
       >
+        <div />
         <span>{formatData(locationTwoConditionData, conditionKey)}</span>
       </div>
     </div>

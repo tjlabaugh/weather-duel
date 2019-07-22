@@ -81,10 +81,6 @@
     text-align: center;
   }
 
-  .condition-data span {
-    display: block;
-  }
-
   & > div {
     background: #eee;
   }
@@ -130,9 +126,34 @@
   }
 }
 
+.condition-data {
+  position: relative;
+
+  div {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 100%;
+    background: seagreen;
+    transition: all 0.3s ease-in-out;
+  }
+
+  span {
+    position: absolute;
+    display: block;
+    z-index: 5;
+    transition: all 0.3s ease-in-out;
+  }
+}
+
 .winner {
-  background: seagreen;
+  position: relative;
   color: #fff;
+
+  > div {
+    width: 100%;
+  }
 }
 
 .weather-container {
