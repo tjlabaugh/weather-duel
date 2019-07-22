@@ -135,6 +135,34 @@
   color: #fff;
 }
 
+.weather-container {
+  text-align: right;
+}
+
+.winner-toggle {
+  background: seagreen;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 3rem;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  font-weight: bold;
+  outline: none;
+  cursor: pointer;
+}
+
+.showing {
+  position: relative;
+  background: #999;
+  color: #ddd;
+
+  img {
+    position: absolute;
+    margin-left: 0.4rem;
+    height: 1.5rem;
+  }
+}
+
 @keyframes loading-spin {
   from {
     transform: rotate(0deg);

@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.scss";
-import WeatherData from "./components/WatherData";
+import WeatherData from "./components/WeatherData";
 import LocationSearch from "./components/LocationSearch";
 import Footer from "./components/Footer";
 
@@ -16,7 +16,8 @@ class App extends React.Component {
       post: "",
       locationOne: "",
       locationTwo: "",
-      loading: false
+      loading: false,
+      showWinners: false
     };
   }
 
@@ -231,6 +232,12 @@ class App extends React.Component {
     });
   };
 
+  toggleWinners = () => {
+    this.setState((state, props) => ({
+      showWinners: !state.showWinners
+    }));
+  };
+
   render() {
     return (
       <div className="app">
@@ -267,6 +274,8 @@ class App extends React.Component {
               locationTwoData={this.state.locationTwo}
               locationOneName={this.state.locationOneName}
               locationTwoName={this.state.locationTwoName}
+              toggleWinners={this.toggleWinners}
+              showWinners={this.state.showWinners}
             />
           )}
         </div>
