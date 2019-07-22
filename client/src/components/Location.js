@@ -2,7 +2,7 @@ import React from "react";
 
 const Location = ({ handleInputChange, locationId, locationValue }) => {
   return (
-    <div>
+    <div className="location-search__inputs__input">
       <input
         type="text"
         name={locationId}

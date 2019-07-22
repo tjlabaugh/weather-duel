@@ -1,6 +1,5 @@
-function formatData(data, condition) {
+export function formatData(data, condition) {
   let output;
-  console.log(`FORMAT`, data, condition);
 
   switch (condition) {
     case "temperature":
@@ -25,4 +24,36 @@ function formatData(data, condition) {
   }
 }
 
-export default formatData;
+export function getWinner(condition, dataOne, dataTwo) {
+  switch (condition) {
+    case "temperature":
+    case "apparentTemperature":
+    case "temperatureHigh":
+    case "temperatureLow":
+    case "apparentTemperatureHigh":
+    case "apparentTemperatureLow":
+      if (Math.abs(dataOne - 70) === Math.abs(dataTwo - 70)) {
+        return 0;
+      } else if (Math.abs(dataOne - 70) < Math.abs(dataTwo - 70)) {
+        return 1;
+      } else {
+        return 2;
+      }
+    case "humidity":
+    case "precipProbability":
+    case "cloudCover":
+    case "windGust":
+    case "uvIndex":
+      if (Math.abs(dataOne) === Math.abs(dataTwo)) {
+        return 0;
+      } else if (Math.abs(dataOne) < Math.abs(dataTwo)) {
+        return 1;
+      } else {
+        return 2;
+      }
+    default:
+      return "";
+  }
+}
+
+export default { formatData, getWinner };

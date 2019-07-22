@@ -10,6 +10,9 @@ const LocationSearch = props => {
           locationId={"firstInput"}
           locationValue={props.locationValues.firstInput}
         />
+        <div className="location-search__vs">
+          <span>Vs</span>
+        </div>
         <Location
           handleInputChange={props.handleInputChange}
           locationId={"secondInput"}
