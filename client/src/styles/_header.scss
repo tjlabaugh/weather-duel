@@ -15,10 +15,22 @@
     max-width: 1000px;
   }
 
+  h1 {
+    display: flex;
+    font-family: $heading;
+    color: $orange;
+    font-size: 4.8rem;
+    letter-spacing: 0.2rem;
+    -webkit-text-fill-color: transparent;
+    -webkit-text-stroke-width: 0.1rem;
+  }
+
   .logo-container {
     display: inline-block;
     margin: 0 0.5rem;
-    height: 4rem;
+    height: 6rem;
+    transform: translateY(-110px);
+    transition: transform 0.4s cubic-bezier(0.39, 0.25, 0.2, 1.8);
 
     .logo {
       height: 100%;
