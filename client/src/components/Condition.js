@@ -18,17 +18,17 @@ const Condition = ({
     <div className="condition">
       <div className="condition-name">{conditionName}</div>
       <div
-        className={`condition-data ${(winner === 1 || winner === 0) &&
-          showWinners &&
-          "winner"}`}
+        className={`condition-data ${
+          (winner === 1 || winner === 0) && showWinners ? "winner" : ""
+        } ${conditionKey === "summary" ? "summary" : ""}`}
       >
         <div />
         <span>{formatData(locationOneConditionData, conditionKey)}</span>
       </div>
       <div
-        className={`condition-data ${(winner === 2 || winner === 0) &&
-          showWinners &&
-          "winner"}`}
+        className={`condition-data ${
+          (winner === 2 || winner === 0) && showWinners ? "winner" : ""
+        } ${conditionKey === "summary" ? "summary" : ""}`}
       >
         <div />
         <span>{formatData(locationTwoConditionData, conditionKey)}</span>

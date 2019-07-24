@@ -6,6 +6,10 @@
   width: 100%;
   max-width: 1000px;
 
+  @include mobile {
+    margin-bottom: 5rem;
+  }
+
   &__inputs {
     display: flex;
     flex-wrap: wrap;
@@ -13,9 +17,17 @@
     margin: 1rem;
     width: 100%;
 
+    @include mobile {
+      flex-direction: column;
+    }
+
     &__input {
       flex: 2 2 45%;
       margin: 1rem 0.5rem;
+
+      @include mobile {
+        flex: auto;
+      }
     }
 
     input {

@@ -1,9 +1,8 @@
 import React from "react";
-import "./App.scss";
 import WeatherData from "./components/WeatherData";
 import LocationSearch from "./components/LocationSearch";
 import Footer from "./components/Footer";
-
+import "./App.scss";
 import sunLoad from "./images/sun-solid.svg";
 import bolt from "./images/bolt-light.png";
 
@@ -23,6 +22,10 @@ class App extends React.Component {
   }
 
   componentDidMount() {
+    (function() {
+      const logo = document.querySelector(".logo-container");
+      setTimeout(() => (logo.style.transform = "translate(0)"), 1000);
+    })();
     const locationSearch = document.querySelectorAll("[data-location-search]");
     const searchBox1 = new window.google.maps.places.SearchBox(
       locationSearch[0]
@@ -34,11 +37,13 @@ class App extends React.Component {
     searchBox1.addListener("places_changed", () => {
       const place = searchBox1.getPlaces()[0];
       if (place == null) return;
+      this.placesHandleInputChange("firstInput");
     });
 
     searchBox2.addListener("places_changed", () => {
       const place = searchBox2.getPlaces()[0];
       if (place == null) return;
+      this.placesHandleInputChange("secondInput");
     });
   }
 
@@ -215,6 +220,15 @@ class App extends React.Component {
         locationTwo: JSON.stringify(locations.locationTwo),
         loading: false
       });
+
+      const weatherDataDisplay = document.querySelector(
+        ".weather-data-display"
+      );
+      const winnersToggleButton = document.querySelector(".winner-toggle");
+
+      weatherDataDisplay.style.height = "100%";
+      weatherDataDisplay.style.transform = "translateY(0%)";
+      winnersToggleButton.style.transform = "translateY(0%)";
     };
 
     getWeatherData();
@@ -227,6 +241,15 @@ class App extends React.Component {
   handleInputChange = e => {
     const name = e.target.name;
     const value = e.target.value;
+
+    this.setState({
+      [name]: value
+    });
+  };
+
+  placesHandleInputChange = name => {
+    const input = document.querySelector(`input[name="${name}"]`);
+    const value = input.value;
 
     this.setState({
       [name]: value
@@ -262,22 +285,21 @@ class App extends React.Component {
               secondInput: this.state.secondInput
             }}
           />
-          {this.state.loading ? (
+          {this.state.loading && (
             <div className="loading">
               <img className="loading__icon" src={sunLoad} alt="Loading" />
               <p>Weather data is loading...</p>
             </div>
-          ) : (
-            <WeatherData
-              loading={this.state.loading}
-              locationOneData={this.state.locationOne}
-              locationTwoData={this.state.locationTwo}
-              locationOneName={this.state.locationOneName}
-              locationTwoName={this.state.locationTwoName}
-              toggleWinners={this.toggleWinners}
-              showWinners={this.state.showWinners}
-            />
           )}
+          <WeatherData
+            loading={this.state.loading}
+            locationOneData={this.state.locationOne}
+            locationTwoData={this.state.locationTwo}
+            locationOneName={this.state.locationOneName}
+            locationTwoName={this.state.locationTwoName}
+            toggleWinners={this.toggleWinners}
+            showWinners={this.state.showWinners}
+          />
         </div>
         <Footer />
       </div>

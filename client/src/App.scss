@@ -1,67 +1,6 @@
-// .App {
-//   text-align: center;
-// }
-
-// .App-logo {
-//   animation: App-logo-spin infinite 20s linear;
-//   height: 40vmin;
-//   pointer-events: none;
-// }
-
-// .App-header {
-//   background-color: #282c34;
-//   min-height: 50vh;
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-//   justify-content: center;
-//   font-size: calc(10px + 2vmin);
-//   color: white;
-//   padding-bottom: 10px;
-// }
-
-// .App-link {
-//   color: #61dafb;
-// }
-
-// @keyframes App-logo-spin {
-//   from {
-//     transform: rotate(0deg);
-//   }
-//   to {
-//     transform: rotate(360deg);
-//   }
-// }
-
 @import "./styles/variables";
+@import "./styles/general";
 @import "./styles/header";
 @import "./styles/location-search";
 @import "./styles/weatherData";
 @import "./styles/footer";
-
-* {
-  box-sizing: border-box;
-}
-:root {
-  font-size: 62.5%;
-
-  body {
-    background: rgb(13, 19, 33);
-    font-family: $body;
-    font-size: 1.6rem;
-  }
-}
-
-.app {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  min-height: 100vh;
-
-  .container {
-    flex: 1 100%;
-    margin: 0 auto;
-    max-width: 1000px;
-    width: 100%;
-  }
-}

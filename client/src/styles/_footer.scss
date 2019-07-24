@@ -11,6 +11,10 @@ footer {
     margin: 0 auto;
     max-width: 1000px;
 
+    @include mobile {
+      flex-direction: column-reverse;
+    }
+
     & > div {
       flex: 1;
     }
@@ -18,6 +22,10 @@ footer {
     & > div:last-of-type {
       display: flex;
       justify-content: flex-end;
+
+      @include mobile {
+        justify-content: center;
+      }
     }
 
     p {

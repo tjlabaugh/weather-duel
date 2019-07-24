@@ -7,7 +7,7 @@ class WeatherData extends React.Component {
     super(props);
   }
 
-  componentDidMount() {
+  componentDidUpdate() {
     const skycons = new window.Skycons({ color: "#fff" });
     let iconDataOne;
     let iconDataTwo;

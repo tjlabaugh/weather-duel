@@ -1,0 +1,27 @@
+* {
+  box-sizing: border-box;
+}
+:root {
+  font-size: 62.5%;
+
+  body {
+    background: rgb(13, 19, 33);
+    font-family: $body;
+    font-size: 1.6rem;
+  }
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100vh;
+  overflow-x: hidden;
+
+  .container {
+    flex: 1 100%;
+    margin: 0 auto;
+    max-width: 1000px;
+    width: 100%;
+  }
+}
