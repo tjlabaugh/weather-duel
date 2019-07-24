@@ -10,6 +10,7 @@ const Location = ({ handleInputChange, locationId, locationValue }) => {
         onChange={handleInputChange}
         data-location-search
         placeholder="Enter a city"
+        required
       />
     </div>
   );
